@@ -4,3 +4,4 @@ keras==3.7.0
 numpy
 pillow
 plotly
+gdown
