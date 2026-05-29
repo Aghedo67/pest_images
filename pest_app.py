@@ -35,8 +35,8 @@ st.write("Upload an image of a crop pest to identify it instantly.")
 CLASS_NAMES = ['ants', 'aphids', 'beetles', 'caterpillars', 'locusts', 'mites']
 
 # 3. Download + load model
-MODEL_URL = "https://huggingface.co/Aghedo67/pest_images/resolve/main/agricultural_pest_model.keras"
-MODEL_PATH = "agricultural_pest_model.keras"
+MODEL_URL = "https://huggingface.co/Aghedo67/pest_images/resolve/main/agricultural_pest_model_nolambda.keras"
+MODEL_PATH = "agricultural_pest_model_nolambda.keras"
 
 @st.cache_resource
 def load_my_model():
