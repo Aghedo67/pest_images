@@ -4,6 +4,8 @@ import numpy as np
 from PIL import Image
 import plotly.graph_objects as go
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+import gdown
+import os
 
 # 1. Set up page configuration
 st.set_page_config(page_title="Agricultural Pest Classifier", layout="centered")
@@ -54,11 +56,18 @@ CLASS_NAMES = ['ants', 'aphids', 'beetles', 'caterpillars', 'locusts', 'mites']
 # saved model deserialises correctly across different Keras versions.
 @st.cache_resource
 def load_my_model():
+    model_path = 'agricultural_pest_model.keras'
+    if not os.path.exists(model_path):
+        with st.spinner("Downloading model... (first load only)"):
+            gdown.download(
+                id='YOUR_FILE_ID_HERE',   # paste just the ID, not the full URL
+                output=model_path,
+                quiet=False
+            )
     return tf.keras.models.load_model(
-        'agricultural_pest_model.keras',
+        model_path,
         custom_objects={'preprocess_input': preprocess_input}
     )
-
 try:
     model = load_my_model()
     model_loaded = True
