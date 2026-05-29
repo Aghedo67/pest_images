@@ -4,8 +4,7 @@ import numpy as np
 from PIL import Image
 import plotly.graph_objects as go
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-import gdown
-import os
+import requests, os
 
 # 1. Set up page configuration
 st.set_page_config(page_title="Agricultural Pest Classifier", layout="centered")
@@ -54,16 +53,17 @@ CLASS_NAMES = ['ants', 'aphids', 'beetles', 'caterpillars', 'locusts', 'mites']
 # 3. Load model
 # Pass preprocess_input as a custom_object so the Lambda layer in the
 # saved model deserialises correctly across different Keras versions.
+
 @st.cache_resource
 def load_my_model():
     model_path = 'agricultural_pest_model.keras'
     if not os.path.exists(model_path):
         with st.spinner("Downloading model... (first load only)"):
-            gdown.download(
-                id='https://huggingface.co/Aghedo67/pest_images/resolve/main/agricultural_pest_model_nolambda.keras',   # paste just the ID, not the full URL
-                output=model_path,
-                quiet=False
-            )
+            url = "https://huggingface.co/Aghedo67/pest_images/resolve/main/agricultural_pest_model.keras"
+            r = requests.get(url, stream=True)
+            with open(model_path, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
     return tf.keras.models.load_model(
         model_path,
         custom_objects={'preprocess_input': preprocess_input}
