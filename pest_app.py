@@ -60,7 +60,7 @@ def load_my_model():
     if not os.path.exists(model_path):
         with st.spinner("Downloading model... (first load only)"):
             gdown.download(
-                id='YOUR_FILE_ID_HERE',   # paste just the ID, not the full URL
+                id='https://huggingface.co/Aghedo67/pest_images/resolve/main/agricultural_pest_model_nolambda.keras',   # paste just the ID, not the full URL
                 output=model_path,
                 quiet=False
             )
